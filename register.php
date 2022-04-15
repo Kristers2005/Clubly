@@ -38,7 +38,7 @@
                     //Create an instance; passing `true` enables exceptions
                     $mail = new PHPMailer(true);
 
-                    try {
+                     try {
                         //Server settings
                         $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
                         $mail->isSMTP();                                            //Send using SMTP
@@ -46,23 +46,32 @@
                         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
                         $mail->Username   = 'clublyaccept@gmail.com';                     //SMTP username
                         $mail->Password   = 'RUKKRS2021';                               //SMTP password
-                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                        $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                         //Recipients
                         $mail->setFrom('clublyaccept@gmail.com');
+                    //$mail->addAdress($email);
                         $mail->addAddress($email);
 
                         //Content
                         $mail->isHTML(true);                                  //Set email format to HTML
                         $mail->Subject = 'no reply';
-                        $mail->Body    = 'Here is the verification link <b><a href="http://localhost/login/?verification='.$code.'">http://localhost/login/?verification='.$code.'</a></b>';
+                        //$mail->Body   = ''Here is the verification link <b><a href="http://localhost/login/?verification='.$code.'">http://localhost/login/?verification='.$code.'</a></b>';'
+                        $mail->Body    = "Test body";
 
-                        $mail->send();
+
+
+                        if($mail->send());
+                        {
                         echo 'Message has been sent';
+                        };
+                    
+
                     } catch (Exception $e) {
-                        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                        echo( "Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
                     }
+                    $mail -> smtpClose();
                     echo "</div>";
                     $msg = "<div class='alert alert-info'>We've send a verification link on your email address.</div>";
                 } else {
